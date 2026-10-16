@@ -46,7 +46,7 @@ Download `BurhanApp-macos.zip` from the [Releases](../../releases) page, extract
 
 ### From Source (Windows, macOS, Linux)
 ```bash
-git clone https://github.com/CodifiedPoet/BurhanApp.git
+git clone https://github.com/dddqw732/BurhanApp.git
 cd BurhanApp
 python -m venv .venv
 

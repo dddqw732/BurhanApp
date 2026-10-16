@@ -7,7 +7,7 @@ from threading import Thread
 
 from scanmaker import __version__
 
-_REPO = "CodifiedPoet/BurhanApp"
+_REPO = "dddqw732/BurhanApp"
 _API_URL = f"https://api.github.com/repos/{_REPO}/releases/latest"
 _TIMEOUT = 5  # seconds
 
