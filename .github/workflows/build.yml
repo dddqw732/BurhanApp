@@ -19,6 +19,9 @@ jobs:
           - os: macos-latest
             artifact: BurhanApp-macos
             zip_name: BurhanApp-macos.zip
+          - os: ubuntu-latest
+            artifact: BurhanApp-linux
+            zip_name: BurhanApp-linux.tar.gz
 
     runs-on: ${{ matrix.os }}
 
@@ -29,6 +32,24 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version: "3.13"
+
+      - name: Install Linux system libraries
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libegl1 \
+            libgl1 \
+            libxkbcommon-x11-0 \
+            libxcb-cursor0 \
+            libxcb-icccm4 \
+            libxcb-image0 \
+            libxcb-keysyms1 \
+            libxcb-randr0 \
+            libxcb-render-util0 \
+            libxcb-shape0 \
+            libxcb-xinerama0 \
+            libxcb-xfixes0
 
       - name: Install dependencies
         run: |
@@ -63,6 +84,15 @@ jobs:
       - name: Zip build (macOS)
         if: runner.os == 'macOS'
         run: cd dist && zip -r -y "../${{ matrix.zip_name }}" BurhanApp.app/
+
+      - name: Package build (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          chmod +x dist/BurhanApp/BurhanApp
+          cp BurhanApp.desktop dist/BurhanApp/
+          cp install_desktop_entry.sh dist/BurhanApp/
+          chmod +x dist/BurhanApp/install_desktop_entry.sh
+          cd dist && tar -czvf "../${{ matrix.zip_name }}" BurhanApp/
 
       - name: Upload to Release
         if: github.event_name == 'release'

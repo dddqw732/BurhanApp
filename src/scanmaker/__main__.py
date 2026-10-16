@@ -21,13 +21,12 @@ def _qt_message_handler(mode, context, message):
 def main():
     qInstallMessageHandler(_qt_message_handler)
     app = QApplication(sys.argv)
+    app.setApplicationName("BurhanApp")
+    app.setDesktopFileName("BurhanApp")
     window = BurhanApp()
     window.show()
     sys.exit(app.exec())
 
-
-if __name__ == "__main__":
-    main()
 
 if __name__ == "__main__":
     main()

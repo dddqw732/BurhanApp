@@ -121,8 +121,12 @@ def _resolve_font(family: str, size: int, bold: bool, italic: bool):
         style = ""
 
     # Try the requested family, then fallbacks
-    _fallbacks = ("Arial", "Helvetica", "Segoe UI", "Tahoma") if _sys.platform == "win32" \
-        else ("Arial", "Helvetica", "Helvetica Neue", "SF Pro Text")
+    if _sys.platform == "win32":
+        _fallbacks = ("Arial", "Helvetica", "Segoe UI", "Tahoma")
+    elif _sys.platform == "darwin":
+        _fallbacks = ("Arial", "Helvetica", "Helvetica Neue", "SF Pro Text")
+    else:
+        _fallbacks = ("DejaVu Sans", "Liberation Sans", "Ubuntu", "FreeSans", "Arial", "Helvetica")
     for name in (family, *_fallbacks):
         key = (name.lower(), style)
         if key in _FONT_MAP:

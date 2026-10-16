@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=BurhanApp
+GenericName=PDF Annotation & Scan Tool
+Comment=A modern PDF annotation and scan-generation tool
+Exec=BurhanApp %U
+Icon=BurhanApp_Icon_256
+Terminal=false
+Categories=Office;Graphics;Viewer;
+MimeType=application/pdf;image/png;image/jpeg;
+StartupWMClass=BurhanApp

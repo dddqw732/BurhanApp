@@ -153,9 +153,11 @@ class BurhanApp(QMainWindow):
     # ------------------------------------------------------------------
 
     def _set_icon(self):
-        icon_path = os.path.join(_ASSETS_DIR, "BurhanApp.ico")
-        if os.path.isfile(icon_path):
-            self.setWindowIcon(QIcon(icon_path))
+        for fname in ("BurhanApp_Icon_256.png", "BurhanApp_Icon.png", "BurhanApp.ico", "BurhanApp.icns"):
+            icon_path = os.path.join(_ASSETS_DIR, fname)
+            if os.path.isfile(icon_path):
+                self.setWindowIcon(QIcon(icon_path))
+                break
 
     def _s(self, px: int) -> int:
         """Scale a pixel value by the UI scale factor."""
@@ -1213,6 +1215,13 @@ class BurhanApp(QMainWindow):
                 "Courier New", "Georgia", "Verdana", "Menlo",
                 "Geeza Pro", "Baghdad",
             ]
+        elif sys.platform.startswith("linux"):
+            preferred = [
+                "DejaVu Sans", "Liberation Sans", "Ubuntu", "FreeSans",
+                "Noto Sans", "Noto Sans Arabic", "Amiri",
+                "Arial", "Times New Roman", "Courier New", "Georgia",
+                "DejaVu Serif", "Liberation Serif", "DejaVu Sans Mono",
+            ]
         else:
             preferred = [
                 "Arial", "Times New Roman", "Segoe UI", "Tahoma",
@@ -1224,7 +1233,7 @@ class BurhanApp(QMainWindow):
         installed = set(k[0] for k in _FONT_MAP)
         result = [f for f in preferred if f.lower() in installed]
         if not result:
-            result = ["Arial"]
+            result = ["DejaVu Sans" if sys.platform.startswith("linux") else "Arial"]
         return result
 
     def _toggle_bold(self) -> None:

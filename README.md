@@ -4,7 +4,7 @@ A modern PDF annotation and scan-generation tool built with Python, PySide6 (Qt6
 
 ![Python](https://img.shields.io/badge/Python-3.13%2B-blue)
 ![Qt](https://img.shields.io/badge/UI-PySide6%20(Qt6)-41cd52)
-![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS-lightgrey)
+![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 ## Features
@@ -22,14 +22,29 @@ A modern PDF annotation and scan-generation tool built with Python, PySide6 (Qt6
 - **Preview & Export** — Preview rendered output, export pages as PNG/JPEG or merged PDF
 - **Undo/Redo** — Full undo/redo history for all annotations
 - **Auto-Update Checker** — Notifies you on startup when a new version is available
-- **Cross-platform** — Works on Windows and macOS
+- **Cross-platform** — Works on Windows, macOS, and Linux
 
 ## Download
 
 ### Windows
-Download the latest release from the [Releases](../../releases) page — grab the `.zip` file, extract it, and run `BurhanApp.exe`.
+Download the latest release from the [Releases](../../releases) page — grab `BurhanApp-windows.zip`, extract it, and run `BurhanApp.exe`.
 
-### From Source (Windows or macOS)
+### Linux
+Download `BurhanApp-linux.tar.gz` from the [Releases](../../releases) page:
+```bash
+tar -xzf BurhanApp-linux.tar.gz
+cd BurhanApp
+./BurhanApp
+```
+To integrate BurhanApp into your desktop application menu:
+```bash
+./install_desktop_entry.sh
+```
+
+### macOS
+Download `BurhanApp-macos.zip` from the [Releases](../../releases) page, extract it, and move `BurhanApp.app` to your Applications folder.
+
+### From Source (Windows, macOS, Linux)
 ```bash
 git clone https://github.com/CodifiedPoet/BurhanApp.git
 cd BurhanApp
@@ -40,6 +55,9 @@ python -m venv .venv
 
 # macOS/Linux
 source .venv/bin/activate
+
+# On Linux, ensure Qt system libraries are available:
+# sudo apt install libegl1 libgl1 libxkbcommon-x11-0 libxcb-cursor0
 
 pip install -r requirements.txt
 python run_qt.py
@@ -68,8 +86,8 @@ python run_qt.py
 
 ### Mouse Controls
 
-| Action | Windows | macOS |
-|--------|---------|-------|
+| Action | Windows / Linux | macOS |
+|--------|-----------------|-------|
 | Draw annotation | Left-click drag | Left-click drag |
 | Move image/text | Right-click drag | Two-finger tap + drag / Ctrl+click drag |
 | Resize image | Right-click edge/corner | Two-finger tap edge/corner + drag |
@@ -83,33 +101,39 @@ pip install pyinstaller
 pyinstaller BurhanApp.spec --noconfirm
 ```
 
-The output will be in `dist/BurhanApp/`. Zip the folder for distribution.
+The output will be in `dist/BurhanApp/`.
+
+- **Windows:** Zip `dist/BurhanApp`
+- **Linux:** `tar -czvf BurhanApp-linux.tar.gz -C dist BurhanApp`
+- **macOS:** `cd dist && zip -r -y BurhanApp-macos.zip BurhanApp.app/`
 
 ## Project Structure
 
 ```
 BurhanApp/
-├── run_qt.py               # Entry point
-├── BurhanApp.spec          # PyInstaller build config
-├── requirements.txt        # Python dependencies
-├── pyproject.toml          # Package metadata
-├── assets/                 # Images and resources
-└── src/scanmaker/          # Main package
-    ├── __init__.py          # Version constant
-    ├── __main__.py          # CLI entry point
-    ├── qt_app.py            # Main application window (PySide6)
-    ├── qt_canvas.py         # Interactive annotation canvas (QGraphicsView)
-    ├── models.py            # Data models (Tool, Annotation, TextRun)
-    ├── rendering.py         # PDF rendering & annotation compositing
-    ├── theme.py             # Dark/light theme stylesheets
-    ├── updater.py           # Auto-update checker (GitHub Releases API)
-    └── utils.py             # Utility functions
+├── run_qt.py                  # Entry point
+├── BurhanApp.spec             # PyInstaller build config (Windows, macOS, Linux)
+├── BurhanApp.desktop          # Linux desktop entry
+├── install_desktop_entry.sh   # Linux menu installer script
+├── requirements.txt           # Python dependencies
+├── pyproject.toml             # Package metadata
+├── assets/                    # Images and resources
+└── src/scanmaker/             # Main package
+    ├── __init__.py             # Version constant
+    ├── __main__.py             # CLI entry point
+    ├── qt_app.py               # Main application window (PySide6)
+    ├── qt_canvas.py            # Interactive annotation canvas (QGraphicsView)
+    ├── models.py               # Data models (Tool, Annotation, TextRun)
+    ├── rendering.py            # PDF rendering & annotation compositing
+    ├── theme.py                # Dark/light theme stylesheets
+    ├── updater.py              # Auto-update checker (GitHub Releases API)
+    └── utils.py                # Utility functions
 ```
 
 ## Requirements
 
-- Python 3.13+
-- PySide6 >= 6.11
+- Python 3.10+
+- PySide6 >= 6.5
 - PyMuPDF >= 1.27
 - Pillow >= 10.0
 

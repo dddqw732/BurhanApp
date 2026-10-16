@@ -3,6 +3,7 @@ import sys
 import os
 
 is_mac = sys.platform == 'darwin'
+is_win = sys.platform == 'win32'
 
 _spec_dir = os.path.dirname(os.path.abspath(SPEC))
 
@@ -33,6 +34,8 @@ a = Analysis(
 
 pyz = PYZ(a.pure)
 
+exe_icon = 'assets/BurhanApp.icns' if is_mac else ('assets/BurhanApp.ico' if is_win else None)
+
 exe = EXE(
     pyz,
     a.scripts,
@@ -44,7 +47,7 @@ exe = EXE(
     strip=False,
     upx=True,
     console=False,
-    icon='assets/BurhanApp.icns' if is_mac else 'assets/BurhanApp.ico',
+    icon=exe_icon,
 )
 
 coll = COLLECT(
